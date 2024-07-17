@@ -1,0 +1,6 @@
+require: rubocop-rails
+AllCops:
+  SuggestExtensions: false
+Metrics/BlockLength:
+  Exclude:
+    - "config/environments/development.rb"
