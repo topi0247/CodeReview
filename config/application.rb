@@ -5,8 +5,6 @@ require 'rails/all'
 Bundler.require(*Rails.groups)
 
 module App
-  # config/application.rb
-  # App::Application is the main application configuration class.
   class Application < Rails::Application
     config.load_defaults 7.1
     config.autoload_lib(ignore: %w[assets tasks])
@@ -17,5 +15,7 @@ module App
       g.test_framework nil
     end
     config.time_zone = 'Tokyo'
+    config.middleware.use ActionDispatch::Cookies
+    config.middleware.use ActionDispatch::Session::CookieStore, key: '_codereview_session'
   end
 end

@@ -107,6 +107,10 @@ GEM
       reline (>= 0.3.8)
     dockerfile-rails (1.6.17)
       rails (>= 3.0.0)
+    dotenv (3.1.2)
+    dotenv-rails (3.1.2)
+      dotenv (= 3.1.2)
+      railties (>= 6.1)
     drb (2.2.1)
     erubi (1.13.0)
     faraday (2.10.0)
@@ -340,10 +344,12 @@ DEPENDENCIES
   cssbundling-rails
   debug
   dockerfile-rails (>= 1.6)
+  dotenv-rails
   jbuilder
   jsbundling-rails
   octokit
-  omniauth-github (~> 2.0.0)
+  omniauth
+  omniauth-github
   omniauth-rails_csrf_protection
   pg (~> 1.1)
   puma (>= 5.0)
