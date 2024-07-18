@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 class RepositoriesController < ApplicationController
+  before_action :initialize_github
+
   def index
-    @repositories = Github.new(session[:github_access_token]).get_repositories
+    @repositories = @git_hub.get_repositories
   end
 
   def show
     @repository_name = params[:id]
-    @files = Github.new(session[:github_access_token]).get_files(params[:id])
+    @files = @git_hub.get_files(params[:id])
     @content = nil
     @path = nil
     @languages = nil
@@ -17,7 +19,7 @@ class RepositoriesController < ApplicationController
     repository_name = params[:id]
     @path = params[:path]
     @languages = set_language
-    @content = Github.new(session[:github_access_token]).get_content(repository_name, @path)
+    @content = @git_hub.get_file_content(repository_name, @path)
   end
 
   private
@@ -33,5 +35,9 @@ class RepositoriesController < ApplicationController
   def set_language
     extention = @path.split('.').last
     LANGS[extention]
+  end
+
+  def initialize_github
+    @git_hub = Github.new(current_user.name)
   end
 end

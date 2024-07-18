@@ -4,4 +4,4 @@ article.flex.flex-col.justify-center.items-center
   div.w-full.my-6
     ul.grid.grid-cols-3
       - @repositories.each do |repository|
-        li.w-full = link_to repository.name, repository_path(repository.name), class: 'hover:bg-white px-4 py-2 rounded hover:text-slate-800 w-full inline-block transition-all'
+        li.w-full = link_to repository, repository_path(repository), class: 'hover:bg-white px-4 py-2 rounded hover:text-slate-800 w-full inline-block transition-all'
