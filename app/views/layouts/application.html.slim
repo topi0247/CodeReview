@@ -10,5 +10,11 @@ html
     = javascript_include_tag "application", "data-turbo-track" => "reload", "type" => "module"
 
   body
-    = render "shared/headers"
-    = yield
+
+    .min-h-screen.w-full.bg-slate-800.text-white.flex.flex-col
+      header.w-full.bg-white.text-slate-800
+        = render "shared/headers"
+      main.w-full.flex-grow.max-w-7xl.mx-auto.md:p-8
+        = yield
+      footer.w-full.bg-white.text-slate-800
+        = render "shared/footers"
