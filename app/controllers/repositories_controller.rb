@@ -22,18 +22,16 @@ class RepositoriesController < ApplicationController
 
   private
 
+  LANGS = {
+    'rb' => 'ruby',
+    'js' => 'javascript',
+    'html' => 'html',
+    'erb' => 'html',
+    'slim' => 'html'
+  }.freeze
+
   def set_language
-    case @path.split('.').last
-    when 'rb'
-      'ruby'
-    when 'js'
-      'javascript'
-    when 'html'
-      'html'
-    when 'erb'
-      'erb'
-    when 'slim'
-      'slim'
-    end
+    extention = @path.split('.').last
+    LANGS[extention]
   end
 end
