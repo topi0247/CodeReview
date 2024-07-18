@@ -19,13 +19,17 @@ gem 'tzinfo-data', platforms: %i[windows jruby]
 group :development, :test do
   gem 'debug', platforms: %i[mri windows]
   gem 'rubocop'
-  gem 'rubocop-checkstyle_formatter'
+  gem 'rubocop-ast'
+  gem 'rubocop-performance'
   gem 'rubocop-rails'
+  gem 'rubocop-rake'
+  gem 'rubocop-rspec'
 end
 
 group :development do
   gem 'annotate'
   gem 'web-console'
+  gem 'dockerfile-rails', '>= 1.6'
 end
 
 group :test do
@@ -36,5 +40,4 @@ end
 gem 'octokit'
 gem 'omniauth-github', '~> 2.0.0'
 gem 'omniauth-rails_csrf_protection'
-
-gem "dockerfile-rails", ">= 1.6", :group => :development
+gem 'slim-rails'
