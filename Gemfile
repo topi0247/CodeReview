@@ -37,7 +37,8 @@ group :test do
   gem 'selenium-webdriver'
 end
 
+gem 'dotenv-rails'
 gem 'octokit'
-gem 'omniauth-github', '~> 2.0.0'
-gem 'omniauth-rails_csrf_protection'
 gem 'slim-rails'
+gem 'omniauth'
+gem 'omniauth-github'
