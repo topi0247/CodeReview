@@ -1,0 +1,6 @@
+h1 CodeReview
+
+- if logged_in?
+  = image_tag current_user.avatar_url, width: 20, height: 20
+- else
+  = link_to 'GitHubでログイン', github_login_path, data: { turbo: false }
