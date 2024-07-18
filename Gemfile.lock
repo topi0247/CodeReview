@@ -120,6 +120,11 @@ GEM
       net-http
     globalid (1.2.1)
       activesupport (>= 6.1)
+    graphql (2.3.9)
+      base64
+    graphql-client (0.23.0)
+      activesupport (>= 3.0)
+      graphql (>= 1.13.0)
     hashie (5.0.0)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
@@ -342,6 +347,8 @@ DEPENDENCIES
   debug
   dockerfile-rails (>= 1.6)
   dotenv-rails
+  graphql
+  graphql-client
   jbuilder
   jsbundling-rails
   octokit
