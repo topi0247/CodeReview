@@ -34,7 +34,6 @@ class Github
 
     contents.each do |content|
       if content.type == 'file' && check_dir.any? { |dir| content.path.include?(dir) } && check_files.include?(File.extname(content.path))
-      file_contents = @client.contents(@repo_name, path: content.path)
       files << { path: content.path }
       elsif content.type == 'dir'
       files << get_all_files_recursive(content.path)
