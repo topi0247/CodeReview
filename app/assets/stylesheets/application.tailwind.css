@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+svg > * {
+  stroke: white;
+}
+
+.uk-accordion > li {
+  border-color: rgb(131, 131, 131);
+}
