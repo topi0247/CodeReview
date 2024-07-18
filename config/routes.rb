@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root 'static_pages#index'
 
   get '/auth/:provider/callback', to: 'sessions#create'
-  get '/auth/github', as: :github_login
   delete '/logout', to: 'sessions#destroy', as: :logout
+
+  resources :repositories, only: %i[index]
 end
