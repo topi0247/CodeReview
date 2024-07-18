@@ -1,7 +1,0 @@
-article.flex.flex-col.justify-center.items-center
-  h1.font-bold.text-2xl リポジトリ一覧
-
-  div.w-full.my-6
-    ul.grid.grid-cols-3
-      - @repositories.each do |repository|
-        li.w-full = link_to repository.name, '#', class: 'hover:bg-white px-4 py-2 rounded hover:text-slate-800 w-full inline-block transition-all'
