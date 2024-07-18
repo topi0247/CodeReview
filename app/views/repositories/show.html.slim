@@ -8,6 +8,5 @@ article.flex.flex-col.justify-center.items-center.w-full
           = render 'repositories/accordion_list', directory: directory, files: files
 
     div.flex-grow.mx-4
-      div class="border border-white max-h-[500px] h-screen p-4"
-        pre.bg-slate-900.p-4.h-full id='file-content'
-          = @content
+      div class="border border-white max-h-[600px] max-w-[800px] h-screen p-4 relative w-full mx-auto"
+        div id='file-content'
