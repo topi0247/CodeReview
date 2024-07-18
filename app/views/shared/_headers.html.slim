@@ -1,10 +1,12 @@
 .max-w-7xl.mx-auto.md:px-8
   .flex.justify-between.items-center.md:py-3
-    h1.text-2xl.font-semibold CodeReview
+    h1.text-2xl.font-semibold
+      = link_to 'CodeReview', root_path
 
     div.flex.items-center.justify-center.gap-3
       - if logged_in?
-        = image_tag current_user.avatar_url, width: 50, height: 50
+        = link_to repositories_path do
+          = image_tag current_user.avatar_url, width: 50, height: 50
         = link_to 'Logout', logout_path, data: { turbo_method: :delete }
       - else
         = link_to 'GitHub Login', '/auth/github', data: { turbo: false }
