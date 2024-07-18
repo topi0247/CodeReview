@@ -1,0 +1,12 @@
+article.flex.flex-col.justify-center.items-center.w-full
+  h1.font-bold.text-2xl.mb-8 = @repository_name
+
+  div.flex.justify-start.items-start.w-full
+    div.w-1/4.border.border-white.p-4
+      ul.uk-accordion.w-full uk-accordion="multiple: true"
+        - @files.each do |directory, files|
+          = render 'repositories/acordion_list', directory: directory, files: files
+
+    div.flex-grow.mx-4
+      div.border.bordere-white.min-h-96.p-4
+
