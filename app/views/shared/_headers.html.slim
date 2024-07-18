@@ -7,4 +7,4 @@
         = image_tag current_user.avatar_url, width: 50, height: 50
         = link_to 'Logout', logout_path, data: { turbo_method: :delete }
       - else
-        = link_to 'GitHub Login', github_login_path, data: { turbo: false }
+        = link_to 'GitHub Login', '/auth/github', data: { turbo: false }
