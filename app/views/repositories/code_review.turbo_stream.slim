@@ -1,0 +1,18 @@
+= turbo_stream.replace 'code-review' do
+  div.border.border-white.p-4.relative.w-full.mx-auto.mt-16 id='code-review'
+    div.w-full.h-full.flex.flex-col.justify-start.items-start
+      h2 コードレビューの結果
+
+      div.w-full.h-full.flex.flex-col.justify-start.items-start
+        - if @code_review.present?
+          h3.font-semibold 良い点
+          ul
+          - @code_review[:good].each do |review|
+            li.text-green-500 = review
+
+          h3.font-semibold 改善点
+          ul
+          - @code_review[:improve].each do |review|
+            li.text-red-500 = review
+        - else
+          p コードレビューはありません

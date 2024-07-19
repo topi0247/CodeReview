@@ -1,7 +1,11 @@
 = turbo_stream.replace 'file-content' do
-  div.w-full.h-full.flex.flex-col.justify-start.items-start id='file-content'
-    h2
-      = @path
-    pre.bg-slate-900.p-4.w-full.flex-grow.relative.overflow-auto
-      code language = @language
-        = @content
+  div class="border border-white max-h-[600px] max-w-[800px] h-screen p-4 relative w-full mx-auto" id='file-content'
+    div.w-full.h-full.flex.flex-col.justify-start.items-start
+      h2
+        = @path
+      pre.bg-slate-900.p-4.w-full.flex-grow.relative.overflow-auto
+        code language = @language
+          = @content
+
+    div.w-full.flex.justify-center.items-center.mt-4
+      = link_to 'コードレビューしてもらう', code_review_repository_path(id: @repository_name, path: @path) ,class: 'border border-white px-2 py-1 hover:bg-white hover:text-slate-800 transition-all', data: { turbo_method: :post }

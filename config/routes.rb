@@ -9,5 +9,6 @@ Rails.application.routes.draw do
 
   resources :repositories, only: %i[index show] do
     post 'file', on: :member
+    post 'code_review', on: :member
   end
 end
