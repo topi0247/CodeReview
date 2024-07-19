@@ -42,15 +42,15 @@ class Github
   GRAPHQL
 
   FILE_CONTENT_QUERY = Client.parse <<~GRAPHQL
-  query($owner: String!, $name: String!, $expression: String!) {
-    repository(owner: $owner, name: $name) {
-      object(expression: $expression) {
-        ... on Blob {
-          text
+    query($owner: String!, $name: String!, $expression: String!) {
+      repository(owner: $owner, name: $name) {
+        object(expression: $expression) {
+          ... on Blob {
+            text
+          }
         }
       }
     }
-  }
   GRAPHQL
 
   def initialize(user_name)
@@ -68,8 +68,13 @@ class Github
 
   def get_files(repository_name)
     all_files = []
-    ['controllers', 'models', 'views', 'services'].each do |subdir|
-      all_files.concat(fetch_files('CodeReview', "app/#{subdir}/"))
+    Rails.logger.info("Fetching files for #{repository_name}")
+    ['controllers', 'models', 'views', 'services', 'mailers'].each do |subdir|
+      begin
+        all_files.concat(fetch_files(repository_name, "app/#{subdir}/"))
+      rescue => e
+        Rails.logger.error "Error fetching files in app/#{subdir}/: #{e.message}"
+      end
     end
     all_files.group_by { |file| File.dirname(file) }
   end
@@ -97,7 +102,13 @@ class Github
     result = Client.query(FILES_QUERY, variables: { owner: @user_name, name: repo_name, expression: "HEAD:#{path}" })
 
     if result.errors.any?
-      raise "GraphQL errors: #{result.errors.map(&:message).join(', ')}"
+      Rails.logger.error "GraphQL errors: #{result.errors.map(&:message).join(', ')}"
+      return []
+    end
+
+    unless result.data && result.data.repository && result.data.repository.object
+      Rails.logger.error  "No data found for path: #{path}"
+      return []
     end
 
     entries = result.data.repository.object.entries
