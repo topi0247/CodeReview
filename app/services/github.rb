@@ -2,22 +2,23 @@
 
 require 'graphql/client'
 require 'graphql/client/http'
+require 'concurrent'
 
 class Github
   AUTH_HEADER = "Bearer #{ENV['GITHUB_ACCESS_TOKEN']}"
-  HHTP = GraphQL::Client::HTTP.new('https://api.github.com/graphql') do
+  HTTP = GraphQL::Client::HTTP.new('https://api.github.com/graphql') do
     def headers(_context)
       { 'Authorization': AUTH_HEADER }
     end
   end
 
-  Schema = GraphQL::Client.load_schema(HHTP)
-  Client = GraphQL::Client.new(schema: Schema, execute: HHTP)
+  Schema = GraphQL::Client.load_schema(HTTP)
+  Client = GraphQL::Client.new(schema: Schema, execute: HTTP)
 
   REPOSITORIES_QUERY = Client.parse <<~GRAPHQL
     query($user_name: String!) {
       user(login: $user_name) {
-        repositories(last: 100) {
+        repositories(last: 21, privacy: PUBLIC) {
           nodes {
             name
           }
@@ -67,15 +68,21 @@ class Github
   end
 
   def get_files(repository_name)
-    all_files = []
-    Rails.logger.info("Fetching files for #{repository_name}")
-    ['controllers', 'models', 'views', 'services', 'mailers'].each do |subdir|
-      begin
-        all_files.concat(fetch_files(repository_name, "app/#{subdir}/"))
-      rescue => e
-        Rails.logger.error "Error fetching files in app/#{subdir}/: #{e.message}"
+    all_files = Concurrent::Array.new
+    directories = ['controllers', 'models', 'views', 'services', 'mailers']
+    tasks = directories.map do |subdir|
+      Concurrent::Promise.execute do
+        begin
+          files = fetch_files(repository_name, "app/#{subdir}/")
+          all_files.concat(files)
+        rescue => e
+          Rails.logger.error "Error fetching files in app/#{subdir}/: #{e.message}"
+        end
       end
     end
+
+    Concurrent::Promise.zip(*tasks).value!
+
     all_files.group_by { |file| File.dirname(file) }
   end
 
@@ -107,21 +114,25 @@ class Github
     end
 
     unless result.data && result.data.repository && result.data.repository.object
-      Rails.logger.error  "No data found for path: #{path}"
+      Rails.logger.error "No data found for path: #{path}"
       return []
     end
 
     entries = result.data.repository.object.entries
-    full_paths = []
+    full_paths = Concurrent::Array.new
 
-    entries.each do |entry|
-      full_path = "#{path}#{entry.name}"
-      if entry.type == 'blob'
-        full_paths << full_path
-      elsif entry.type == 'tree'
-        full_paths.concat(fetch_files(repo_name, "#{full_path}/"))
+    tasks = entries.map do |entry|
+      Concurrent::Promise.execute do
+        full_path = "#{path}#{entry.name}"
+        if entry.type == 'blob'
+          full_paths << full_path
+        elsif entry.type == 'tree'
+          full_paths.concat(fetch_files(repo_name, "#{full_path}/"))
+        end
       end
     end
+
+    Concurrent::Promise.zip(*tasks).value!
 
     full_paths
   end
