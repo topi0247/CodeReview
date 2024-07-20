@@ -82,7 +82,8 @@ class Github
     end
 
     Concurrent::Promise.zip(*tasks).value!
-
+    all_files << "conifg/routes.rb"
+    all_files << "db/schema.rb"
     all_files.group_by { |file| File.dirname(file) }
   end
 
@@ -124,7 +125,7 @@ class Github
     tasks = entries.map do |entry|
       Concurrent::Promise.execute do
         full_path = "#{path}#{entry.name}"
-        if entry.type == 'blob'
+        if entry.type == 'blob' && ['.rb', '.erb', '.html', '.slim'].include?(File.extname(entry.name))
           full_paths << full_path
         elsif entry.type == 'tree'
           full_paths.concat(fetch_files(repo_name, "#{full_path}/"))
