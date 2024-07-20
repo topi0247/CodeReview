@@ -7,5 +7,5 @@
         code language = @language
           = @content
 
-    div.w-full.flex.justify-center.items-center.mt-4
+    div.w-full.flex.justify-center.items-center.mt-8
       = link_to 'コードレビューしてもらう', code_review_repository_path(id: @repository_name, path: @path) ,class: 'border border-white px-2 py-1 hover:bg-white hover:text-slate-800 transition-all', data: { turbo_method: :post }
