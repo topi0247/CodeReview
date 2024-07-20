@@ -24,12 +24,17 @@ class RepositoriesController < ApplicationController
   def code_review
     path = params[:path]
     content = @git_hub.get_file_content(@repository_name, path)
+    gemfile = @git_hub.get_file_content(@repository_name, 'Gemfile')
+
     begin
       @chatgpt = Chatgpt.call("あなたは企業の採用担当のエンジニアです。
                               要件のもと、以下の形式に従いコードレビューをしてください
                               # 要件
-                              - Ruby on Rails7.1.3
-                              - Ruby3.2.2
+                              - Ruby on Rails
+                              - Ruby version
+                              - Ruby on RailsとRubyのバージョンはGemfileから取得する
+                              - 利用しているGemはGemfileから取得する
+                              - Gemfileはコードレビューの対象にしない
                               - エンジニア未経験がポートフォリオとして就職活動で使うものとする
                               - コメントは不要
                               - より高度なコードを書くことを求める
@@ -53,6 +58,10 @@ class RepositoriesController < ApplicationController
                               # コード
                               ```
                               #{content}
+                              ```
+                              ## Gemfile
+                              ```
+                              #{gemfile}
                               ```
                               ")
     rescue Net::ReadTimeout
