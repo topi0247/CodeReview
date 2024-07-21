@@ -32,6 +32,16 @@ module.exports = {
         accordion: {
           hooks: shadcn.accordion,
         },
+        button: {
+          hooks: {}
+        },
+        'form-range': {
+          hooks: {}
+        },
+        form: {
+          hooks: {},
+          media: true
+        },
       },
     }),
   ],
