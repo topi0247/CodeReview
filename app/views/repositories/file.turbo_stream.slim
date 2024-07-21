@@ -4,10 +4,8 @@
       div
         h2
           = @path
-        div class="overflow-auto max-w-[800px] max-h-[600px] w-screen h-screen bg-slate-900 p-4"
-          pre
-            code.block.w-fit language = @language
-              = @content
+        div class="overflow-auto max-w-[800px] max-h-[600px] w-screen h-screen bg-[#181818] p-4"
+          == markdown(@content)
 
     div.w-full.flex.justify-center.items-center.my-8
       = link_to 'コードレビューしてもらう', code_review_repository_path(id: @repository_name, path: @path) ,class: 'border border-white px-2 py-1 hover:bg-white hover:text-slate-800 transition-all', data: { turbo_method: :post }

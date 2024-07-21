@@ -18,7 +18,11 @@ class RepositoriesController < ApplicationController
   def file
     @path = params[:path]
     @languages = set_language
-    @content = @git_hub.get_file_content(@repository_name, @path)
+    # マークダウン式でコードを表示
+    # NOTE: #{@git_hub.get_file_content(@repository_name, @path)}の左にインデントがあると表示が崩れる
+    @content = "```#{@path.split('.').last}
+#{@git_hub.get_file_content(@repository_name, @path)}
+"
   end
 
   def code_review
