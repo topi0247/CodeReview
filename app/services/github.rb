@@ -82,9 +82,9 @@ class Github
     end
 
     Concurrent::Promise.zip(*tasks).value!
-    all_files << "conifg/routes.rb"
+    all_files << "config/routes.rb"
     all_files << "db/schema.rb"
-    all_files.group_by { |file| File.dirname(file) }
+    all_files.sort.group_by { |file| File.dirname(file) }
   end
 
   def get_file_content(repository_name, file_path)

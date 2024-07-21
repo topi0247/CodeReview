@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   get '/auth/:provider/callback', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy', as: :logout
+  post '/try', to: 'static_pages#try', as: :try
 
   resources :repositories, only: %i[index show] do
     post 'file', on: :member
