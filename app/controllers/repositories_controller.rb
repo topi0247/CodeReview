@@ -19,9 +19,9 @@ class RepositoriesController < ApplicationController
     # マークダウン式でコードを表示
     # NOTE: #{@git_hub.get_file_content(@repository_name, @path)}の左にインデントがあると表示が崩れる
     file_content = @git_hub.get_file_content(@repository_name, @path)
-    @commit_url = file_content[:commit_url]
+    @commit_url = @git_hub.get_commit_url(@repository_name, @path)
     @content = "```#{@path.split('.').last}
-#{file_content[:content]}
+#{file_content}
 "
   end
 

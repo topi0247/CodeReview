@@ -28,13 +28,20 @@ class Github
   GRAPHQL
 
   FILE_CONTENT_QUERY = Client.parse <<~GRAPHQL
-    query($owner: String!, $name: String!, $expression: String!, $qualifiedName: String!, $file_path: String!) {
+    query($owner: String!, $name: String!, $expression: String!) {
       repository(owner: $owner, name: $name) {
         object(expression: $expression) {
           ... on Blob {
             text
           }
         }
+      }
+    }
+  GRAPHQL
+
+  FILE_COMMIT_OID_QUERY = Client.parse <<~GRAPHQL
+    query($owner: String!, $name: String!, $qualifiedName: String!, $file_path: String!) {
+      repository(owner: $owner, name: $name) {
         ref(qualifiedName: $qualifiedName) {
           target {
             ... on Commit {
@@ -51,6 +58,7 @@ class Github
       }
     }
   GRAPHQL
+
 
   FILES_QUERY = Client.parse <<~GRAPHQL
     query($owner: String!, $name: String!, $expression: String!) {
@@ -111,22 +119,25 @@ class Github
   end
 
   def get_file_content(repository_name, file_path)
-    default_branch = Client.query(DEFAULT_BRANCH_QUERY, variables: { owner: @user_name, name: repository_name })
-    if default_branch.errors.any?
-      handle_errors(default_branch)
+    branch_name = get_default_branch_name(repository_name)
+
+    result = Client.query(FILE_CONTENT_QUERY, variables: { owner: @user_name, name: repository_name, expression: "#{branch_name}:#{file_path}" })
+
+    if result.data && result.data.repository && result.data.repository.object
+      # commit_oid = result.data.repository.ref.target.history.edges.first.node.oid
+      # commit_url = "https://github.com/#{@user_name}/#{repository_name}/commit/#{commit_oid}"
+      result.data.repository.object.text
+    else
+      handle_errors(result)
     end
+  end
 
-    branch_name = default_branch.data.repository.default_branch_ref.name
-    if branch_name.nil?
-      raise "No default branch found for repository #{repository_name}"
-    end
-
-    result = Client.query(FILE_CONTENT_QUERY, variables: { owner: @user_name, name: repository_name, expression: "#{branch_name}:#{file_path}", qualifiedName: "refs/heads/#{branch_name}", file_path: file_path })
-
-    if result.data && result.data.repository && result.data.repository.object && result.data.repository.ref
+  def get_commit_url(repository_name, file_path)
+    branch_name = get_default_branch_name(repository_name)
+    result = Client.query(FILE_COMMIT_OID_QUERY, variables: { owner: @user_name, name: repository_name, qualifiedName: "refs/heads/#{branch_name}", file_path: file_path })
+    if result.data && result.data.repository && result.data.repository.ref
       commit_oid = result.data.repository.ref.target.history.edges.first.node.oid
-      commit_url = "https://github.com/#{@user_name}/#{repository_name}/commit/#{commit_oid}"
-      { content: result.data.repository.object.text, commit_url: commit_url }
+      "https://github.com/#{@user_name}/CodeReview/commit/#{commit_oid}"
     else
       handle_errors(result)
     end
@@ -172,5 +183,22 @@ class Github
     Concurrent::Promise.zip(*tasks).value!
 
     full_paths
+  end
+
+  def get_default_branch_name(repository_name)
+    result = Client.query(DEFAULT_BRANCH_QUERY, variables: { owner: @user_name, name: repository_name })
+    if result.errors.any?
+      handle_errors(result)
+    end
+
+    if result.errors.any?
+      handle_errors(default_branch)
+    end
+
+    if result.nil?
+      raise "No default branch found for repository #{repository_name}"
+    end
+
+    result.data.repository.default_branch_ref.name
   end
 end
