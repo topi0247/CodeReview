@@ -27,6 +27,31 @@ class Github
     }
   GRAPHQL
 
+  FILE_CONTENT_QUERY = Client.parse <<~GRAPHQL
+    query($owner: String!, $name: String!, $expression: String!, $qualifiedName: String!, $file_path: String!) {
+      repository(owner: $owner, name: $name) {
+        object(expression: $expression) {
+          ... on Blob {
+            text
+          }
+        }
+        ref(qualifiedName: $qualifiedName) {
+          target {
+            ... on Commit {
+              history(first: 1, path: $file_path) {
+                edges {
+                  node {
+                    oid
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  GRAPHQL
+
   FILES_QUERY = Client.parse <<~GRAPHQL
     query($owner: String!, $name: String!, $expression: String!) {
       repository(owner: $owner, name: $name) {
@@ -42,13 +67,11 @@ class Github
     }
   GRAPHQL
 
-  FILE_CONTENT_QUERY = Client.parse <<~GRAPHQL
-    query($owner: String!, $name: String!, $expression: String!) {
+  DEFAULT_BRANCH_QUERY = Client.parse <<~GRAPHQL
+    query($owner: String!, $name: String!) {
       repository(owner: $owner, name: $name) {
-        object(expression: $expression) {
-          ... on Blob {
-            text
-          }
+        defaultBranchRef {
+          name
         }
       }
     }
@@ -88,9 +111,22 @@ class Github
   end
 
   def get_file_content(repository_name, file_path)
-    result = Client.query(FILE_CONTENT_QUERY, variables: { owner: @user_name, name: repository_name, expression: "HEAD:#{file_path}" })
-    if result.data && result.data.repository && result.data.repository.object
-      result.data.repository.object.text
+    default_branch = Client.query(DEFAULT_BRANCH_QUERY, variables: { owner: @user_name, name: repository_name })
+    if default_branch.errors.any?
+      handle_errors(default_branch)
+    end
+
+    branch_name = default_branch.data.repository.default_branch_ref.name
+    if branch_name.nil?
+      raise "No default branch found for repository #{repository_name}"
+    end
+
+    result = Client.query(FILE_CONTENT_QUERY, variables: { owner: @user_name, name: repository_name, expression: "#{branch_name}:#{file_path}", qualifiedName: "refs/heads/#{branch_name}", file_path: file_path })
+
+    if result.data && result.data.repository && result.data.repository.object && result.data.repository.ref
+      commit_oid = result.data.repository.ref.target.history.edges.first.node.oid
+      commit_url = "https://github.com/#{@user_name}/#{repository_name}/commit/#{commit_oid}"
+      { content: result.data.repository.object.text, commit_url: commit_url }
     else
       handle_errors(result)
     end
@@ -106,8 +142,8 @@ class Github
     end
   end
 
-  def fetch_files(repo_name, path = "")
-    result = Client.query(FILES_QUERY, variables: { owner: @user_name, name: repo_name, expression: "HEAD:#{path}" })
+  def fetch_files(repository_name, path = "")
+    result = Client.query(FILES_QUERY, variables: { owner: @user_name, name: repository_name, expression: "HEAD:#{path}" })
 
     if result.errors.any?
       Rails.logger.error "GraphQL errors: #{result.errors.map(&:message).join(', ')}"
@@ -128,7 +164,7 @@ class Github
         if entry.type == 'blob' && ['.rb', '.erb', '.html', '.slim'].include?(File.extname(entry.name))
           full_paths << full_path
         elsif entry.type == 'tree'
-          full_paths.concat(fetch_files(repo_name, "#{full_path}/"))
+          full_paths.concat(fetch_files(repository_name, "#{full_path}/"))
         end
       end
     end
