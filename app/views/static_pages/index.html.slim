@@ -3,8 +3,8 @@ h1 Hello World!
 - unless logged_in?
   .w-full
     h2.text-xl.text-center.font-semibold.my-8 試してみる
-    = form_with url: try_path, method: :post, class: "max-w-[800px] w-full m-auto flex flex-col justify-start items-start gap-8" do |f|
-      = f.text_area :code, class: "uk-textarea w-full m-auto bg-[#181818] border-[#181818] text-white focus:bg-[#181818] focus:border-white focus:text-white h-96", row: 20, placeholder: "コードを入力してください"
-      = f.submit 'コードレビューをもらう', class: "uk-button uk-button-default text-white hover:bg-white hover:text-slate-800 m-auto"
+    = form_with url: try_path, method: :post, class: "max-w-[800px] w-full m-auto flex flex-col justify-start items-start gap-8", data: { controller: "try_code_review" } do |f|
+      = f.text_area :code, class: "uk-textarea w-full m-auto bg-[#181818] text-white focus:bg-[#181818] focus:border-white focus:text-white", rows: 15, placeholder: "コードを入力してください", data: { target: "try_code_review.textArea", action: "input->try_code_review#input" }
+      = f.submit 'コードレビューをもらう', class: "uk-button uk-button-default text-white hover:bg-white hover:text-slate-800 m-auto", data: { target: "try_code_review.submitButton" }, disabled: true
 
     div id='code-review' pre-style="border border-white max-h-[600px] max-w-[800px] h-full p-4 relative w-full mx-auto mt-16 text-xl flex flex-col justify-start items-start mt-4 font-semibold text-green-500 list-disc ml-8 text-red-500"

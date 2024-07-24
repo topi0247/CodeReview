@@ -13,7 +13,7 @@ class StaticPagesController < ApplicationController
   end
 
   def try
-    if session[:try_datetime] && Time.now - session[:try_datetime] > 1.day
+    if session[:try_datetime] && Time.now - Time.parse(session[:try_datetime]) > 1.day
       session[:try_mode] = nil
     end
 
