@@ -8,7 +8,7 @@ class ReviewLogsController < ApplicationController
   def show
     @review_log = current_user.review_logs.find_by(repository_name: @repository_name)
     if @review_log.nil?
-      redirect_to review_logs_path, alert: 'Review log not found'
+      redirect_to review_logs_path, alert: 'レビューログが見つかりませんでした'
     end
   end
 
@@ -19,9 +19,9 @@ class ReviewLogsController < ApplicationController
     review_log = current_user.review_logs.find_or_create_by(repository_name: @repository_name)
     review_log.review_contents.build(file_path: file_path, commit_oid: commit_oid, content: content)
     if review_log.save
-      redirect_to repository_path(@repository_name), notice: 'Review log created'
+      redirect_to repository_path(@repository_name), notice: 'コードレビューのログを保存しました'
     else
-      redirect_to repository_path(@repository_name), notice: 'Review log not created'
+      redirect_to repository_path(@repository_name), notice: 'コードレビューのログを保存出来ませんでした'
     end
   end
 
