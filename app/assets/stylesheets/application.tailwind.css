@@ -3,12 +3,30 @@
 @tailwind utilities;
 @import "base16_dark.css";
 
+:root {
+  --foreground: white;
+}
+
 svg > * {
   stroke: white;
 }
 
 .uk-accordion > li {
   border-color: rgb(131, 131, 131);
+}
+
+.uk-textarea {
+  background-color: #181818;
+}
+
+.uk-button-default {
+  color: white;
+  transition: all 0.3s;
+}
+
+.uk-button-default:hover {
+  background-color: white;
+  color: #181818;
 }
 
 .highlight table td {
