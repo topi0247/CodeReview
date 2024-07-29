@@ -1,15 +1,16 @@
 doctype html
-html.dark
+html.light
   head
     title CodeReviews
     meta name="viewport" content="width=device-width,initial-scale=1"
     = csrf_meta_tags
     = csp_meta_tag
 
+    link rel="stylesheet" href="https://unpkg.com/franken-wc@0.0.4/dist/css/slate.min.css"
     = stylesheet_link_tag "application", "data-turbo-track" => "reload"
     = javascript_include_tag "application", "data-turbo-track" => "reload", "type" => "module"
-    script src="https://cdn.jsdelivr.net/npm/uikit@3.21.5/dist/js/uikit.min.js"
-    script src="https://cdn.jsdelivr.net/npm/uikit@3.21.5/dist/js/uikit-icons.min.js"
+    script src="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/js/uikit.min.js"
+    script src="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/js/uikit-icons.min.js"
   body
 
     .min-h-screen.w-full.bg-slate-800.text-white.flex.flex-col

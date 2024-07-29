@@ -465,10 +465,10 @@ fraction.js@^4.3.7:
   resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.3.7.tgz#06ca0085157e42fda7f9e726e79fefc4068840f7"
   integrity sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==
 
-franken-ui@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/franken-ui/-/franken-ui-0.1.0.tgz#edddad0f7d1ca07d9ffae8c83ddd419cf7eb5347"
-  integrity sha512-tjLzP0rrfsQP5E7F+XBgOUpGFSGEBLfsKQa38GbFVZ1WPo9SWN7al3/VCgaaBA9lPXccZ5fguxTZ+ovim8sG5Q==
+franken-ui@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/franken-ui/-/franken-ui-0.1.1.tgz#3b63bb1d1cf371e49273615a318e2d8784960c29"
+  integrity sha512-S5ykaaiIhFQGgs8nPEPLwe43bUz43KIHGmjQiFTZWx1LKTj+ABVY4Nm7t3dbqNaNKTFyiiuODH7Ck7Toesohcg==
 
 fsevents@~2.3.2:
   version "2.3.3"
@@ -744,10 +744,19 @@ postcss-value-parser@^4.0.0, postcss-value-parser@^4.2.0:
   resolved "https://registry.yarnpkg.com/postcss-value-parser/-/postcss-value-parser-4.2.0.tgz#723c09920836ba6d3e5af019f92bc0971c02e514"
   integrity sha512-1NNCs6uurfkVbeXG4S8JFT9t19m45ICnif8zWLd5oPSZ50QnwMfK+H3jv408d4jw/7Bttv5axS5IiHoLaVNHeQ==
 
-postcss@^8.4.23, postcss@^8.4.39:
+postcss@^8.4.23:
   version "8.4.39"
   resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.39.tgz#aa3c94998b61d3a9c259efa51db4b392e1bde0e3"
   integrity sha512-0vzE+lAiG7hZl1/9I8yzKLx3aR9Xbof3fBHKunvMfOCYAtMhrsnccJY2iTURb9EZd5+pLuiNV9/c/GZJOHsgIw==
+  dependencies:
+    nanoid "^3.3.7"
+    picocolors "^1.0.1"
+    source-map-js "^1.2.0"
+
+postcss@^8.4.40:
+  version "8.4.40"
+  resolved "https://registry.yarnpkg.com/postcss/-/postcss-8.4.40.tgz#eb81f2a4dd7668ed869a6db25999e02e9ad909d8"
+  integrity sha512-YF2kKIUzAofPMpfH6hOi2cGnv/HrUlfucspc7pDyvv7kGdqXrfj8SCl/t8owkEgKEuu8ZcRjSOxFxVLqwChZ2Q==
   dependencies:
     nanoid "^3.3.7"
     picocolors "^1.0.1"

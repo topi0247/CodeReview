@@ -14,6 +14,8 @@
 #  index_users_on_uid  (uid) UNIQUE
 #
 class User < ApplicationRecord
+  has_many :review_logs, dependent: :destroy
+  has_many :review_contents, through: :review_logs
   validates :name, presence: true
   validates :uid, presence: true, uniqueness: true
   validates :avatar_url, presence: true

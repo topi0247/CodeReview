@@ -1,5 +1,7 @@
 = turbo_stream.replace 'file-content' do
   div id="file-content"
+    - unless @code_review.nil?
+      = render 'repositories/code_review', code_review: @code_review
     div.border.border-white.p-4.mx-auto
       div
         h2
@@ -7,6 +9,7 @@
         = link_to '最新コミット', @commit_url, target: '_blank', ref: 'noopener noreferrer', class: "underline text-pink-300 my-4 inline-block"
         div class="overflow-auto max-w-[800px] max-h-[600px] w-full h-full bg-[#181818] p-4"
           == markdown(@content)
+    - if @code_review.nil?
+      div.w-full.flex.justify-center.items-center.my-8
+        = link_to 'コードレビューしてもらう', code_review_repository_path(id: @repository_name, path: @path), class: 'border border-white px-2 py-1 hover:bg-white hover:text-slate-800 transition-all', data: { turbo_method: :post }
 
-    div.w-full.flex.justify-center.items-center.my-8
-      = link_to 'コードレビューしてもらう', code_review_repository_path(id: @repository_name, path: @path) ,class: 'border border-white px-2 py-1 hover:bg-white hover:text-slate-800 transition-all', data: { turbo_method: :post }

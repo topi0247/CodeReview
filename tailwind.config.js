@@ -25,7 +25,7 @@ module.exports = {
   },
   plugins: [
     variables({
-      theme: "slate",
+      theme: "zinc",
     }),
     ui({
       components: {
@@ -42,6 +42,10 @@ module.exports = {
           hooks: {},
           media: true
         },
+        dropdown: {
+          hooks: {},
+          media: true
+        }
       },
     }),
   ],

@@ -124,20 +124,17 @@ class Github
     result = Client.query(FILE_CONTENT_QUERY, variables: { owner: @user_name, name: repository_name, expression: "#{branch_name}:#{file_path}" })
 
     if result.data && result.data.repository && result.data.repository.object
-      # commit_oid = result.data.repository.ref.target.history.edges.first.node.oid
-      # commit_url = "https://github.com/#{@user_name}/#{repository_name}/commit/#{commit_oid}"
       result.data.repository.object.text
     else
       handle_errors(result)
     end
   end
 
-  def get_commit_url(repository_name, file_path)
+  def get_commit_oid(repository_name, file_path)
     branch_name = get_default_branch_name(repository_name)
     result = Client.query(FILE_COMMIT_OID_QUERY, variables: { owner: @user_name, name: repository_name, qualifiedName: "refs/heads/#{branch_name}", file_path: file_path })
     if result.data && result.data.repository && result.data.repository.ref
-      commit_oid = result.data.repository.ref.target.history.edges.first.node.oid
-      "https://github.com/#{@user_name}/CodeReview/commit/#{commit_oid}"
+      result.data.repository.ref.target.history.edges.first.node.oid
     else
       handle_errors(result)
     end

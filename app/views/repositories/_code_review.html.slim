@@ -1,0 +1,17 @@
+div class="border border-white w-ful h-full p-4 relative w-full mx-auto mb-8" id='code-review'
+    h2.text-xl 前回のコードレビューの結果
+    p 前回とコードに差分がないため、前回のコードレビューの結果を表示しています。
+
+    - if @code_review.present?
+      div.w-full.h-full.flex.flex-col.justify-start.items-start.mt-4
+        h3.text-xl.font-semibold.text-green-500 良い点
+        - if @code_review[:good].present?
+          ul.list-disc
+            - @code_review[:good].each do |good_point|
+              li.ml-8 = good_point
+
+        h3.text-xl.font-semibold.text-yellow-500.mt-4 改善点
+        - if @code_review[:improve].present?
+          ul.list-disc
+            - @code_review[:improve].each do |improvement_point|
+              li.ml-8 = improvement_point

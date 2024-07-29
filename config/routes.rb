@@ -11,5 +11,6 @@ Rails.application.routes.draw do
   resources :repositories, only: %i[index show] do
     post 'file', on: :member
     post 'code_review', on: :member
+    resources :review_logs, only: %i[create destroy]
   end
 end

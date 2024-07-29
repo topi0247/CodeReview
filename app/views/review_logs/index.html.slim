@@ -1,0 +1,11 @@
+article.flex.flex-col.justify-center.items-center
+  h1.font-bold.text-2xl レビューログ一覧
+
+  div.w-full.my-6
+    - if @review_logs.present?
+      ul.grid.grid-cols-3
+        - @review_logs.each do |log|
+          li.w-full = link_to log.repository_name, review_log_path(log.repository_name), class: 'hover:bg-white px-4 py-2 rounded hover:text-slate-800 w-full inline-block transition-all'
+    - else
+      p.text-center まだレビューログがありません
+

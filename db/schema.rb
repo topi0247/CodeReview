@@ -10,9 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_18_034714) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_28_111603) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "review_contents", force: :cascade do |t|
+    t.bigint "review_log_id", null: false
+    t.string "file_path", null: false
+    t.string "commit_oid", null: false
+    t.json "content", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["review_log_id"], name: "index_review_contents_on_review_log_id"
+  end
+
+  create_table "review_logs", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "repository_name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_review_logs_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
@@ -23,4 +41,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_18_034714) do
     t.index ["uid"], name: "index_users_on_uid", unique: true
   end
 
+  add_foreign_key "review_contents", "review_logs"
+  add_foreign_key "review_logs", "users"
 end
