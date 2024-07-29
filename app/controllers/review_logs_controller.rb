@@ -16,7 +16,7 @@ class ReviewLogsController < ApplicationController
     file_path = session[:file_path]
     commit_oid = session[:commit_oid]
     content = session[:code_review]
-    review_log = current_user.review_logs.find_by_or_build(repository_name: @repository_name)
+    review_log = current_user.review_logs.find_or_create_by(repository_name: @repository_name)
     review_log.review_contents.build(file_path: file_path, commit_oid: commit_oid, content: content)
     if review_log.save
       redirect_to repository_path(@repository_name), notice: 'Review log created'
