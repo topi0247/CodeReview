@@ -24,7 +24,7 @@ class RepositoriesController < ApplicationController
     file_content = @git_hub.get_file_content(@repository_name, @path)
     commit_oid = @git_hub.get_commit_oid(@repository_name, @path)
     session[:commit_oid] = commit_oid
-    @commit_url = "https://github.com/#{current_user.name}/CodeReview/commit/#{commit_oid}"
+    @commit_url = "https://github.com/#{current_user.name}/#{@repository_name}/commit/#{commit_oid}"
     # マークダウン式でコードを表示
     # NOTE: #{@git_hub.get_file_content(@repository_name, @path)}の左にインデントがあると表示が崩れる
     @content = "```#{@path.split('.').last}
