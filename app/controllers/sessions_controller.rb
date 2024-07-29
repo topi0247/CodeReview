@@ -8,8 +8,6 @@ class SessionsController < ApplicationController
       u.avatar_url = auth.info.image
     end
     session[:user_id] = user.id
-    session.delete(:try_mode) if session[:try_mode]
-    session.delete(:try_datetime) if session[:try_datetime]
     redirect_to repositories_path, notice: "Signed in!"
   end
 
