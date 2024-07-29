@@ -1,6 +1,6 @@
 h1.text-center.text-3xl
   span.px-4.border-b.border-white Rails Code Review
-p.text-center.my-3.text-xl あなたのRailsコードをレビューします
+p.text-center.my-3.text-xl Railsアプリのコードレビュー！
 
 - unless logged_in?
   .w-full
@@ -14,14 +14,27 @@ p.text-center.my-3.text-xl あなたのRailsコードをレビューします
 .my-8
   h2.text-2xl.text-center ログインすると...？
   p.text-xl.text-center 以下の機能が使えるようになります
-  ul.border.border-white.list-disc.p-4.w-96.m-auto.my-4
-    li.ml-8
-      | 公開リポジトリからコードを取得してレビュー
-    li.ml-8
-      | レビュー結果を保存して後から見返す
-      br
-      | ※見返せるデータは最新1件のみ
-    li.ml-8
-      | レビュー回数無制限！
-      br
-      | ※ただし保存したレビューは差分がなければ1回のみ
+  .border.border-white.p-4.w-96.m-auto.my-4
+    ul.list-disc
+      li.ml-8
+        | 公開リポジトリからコードを取得してレビュー
+      li.ml-8
+        | レビュー結果を保存して後から見返す
+        br
+        | ※見返せるデータは最新1件のみ
+      li.ml-8
+        | レビュー回数無制限！
+        br
+        | ※ただし保存したレビューは差分がなければ1回のみ
+    p レビューできるのは以下のファイルです
+    ul.list-disc
+      li.ml-8
+        | controllerディレクトリ以下
+      li.ml-8
+        | modelsディレクトリ以下
+      li.ml-8
+        | viewsディレクトリ以下
+      li.ml-8
+        | servicesディレクトリ以下
+      li.ml-8
+        | mailerディレクトリ以下

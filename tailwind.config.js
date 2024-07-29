@@ -45,6 +45,9 @@ module.exports = {
         dropdown: {
           hooks: {},
           media: true
+        },
+        alert: {
+          hooks: {}
         }
       },
     }),
