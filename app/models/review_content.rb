@@ -20,7 +20,6 @@
 #
 class ReviewContent < ApplicationRecord
   belongs_to :review_log
-  belongs_to :user, through: :review_log
 
   validates :file_path, presence: true
   validates :commit_oid, presence: true
