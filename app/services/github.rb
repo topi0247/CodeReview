@@ -21,6 +21,13 @@ class Github
         repositories(last: 21, privacy: PUBLIC) {
           nodes {
             name
+            object(expression: "HEAD:") {
+              ... on Tree {
+                entries {
+                  name
+                }
+              }
+            }
           }
         }
       }
@@ -92,7 +99,9 @@ class Github
   def get_repositories
     result = Client.query(REPOSITORIES_QUERY, variables: { user_name: @user_name })
     if result.data && result.data.user
-      result.data.user.repositories.nodes.map { |repo| repo.name }
+      result.data.user.repositories.nodes.select do |repo|
+        repo.object.entries.any? { |entry| entry.name == 'Gemfile' }
+      end.map(&:name)
     else
       handle_errors(result)
     end
