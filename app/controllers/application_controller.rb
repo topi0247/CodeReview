@@ -15,6 +15,13 @@ class ApplicationController < ActionController::Base
   end
 
   def authenticate!
+    return if high_voltage_page?
     redirect_to root_path unless logged_in?
+  end
+
+  private
+
+  def high_voltage_page?
+    params[:controller] == 'high_voltage/pages'
   end
 end
