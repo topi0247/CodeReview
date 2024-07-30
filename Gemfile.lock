@@ -127,6 +127,7 @@ GEM
       activesupport (>= 3.0)
       graphql (>= 1.13.0)
     hashie (5.0.0)
+    high_voltage (4.0.0)
     httparty (0.22.0)
       csv
       mini_mime (>= 1.0.0)
@@ -356,6 +357,7 @@ DEPENDENCIES
   dotenv-rails
   graphql
   graphql-client
+  high_voltage (~> 4.0.0)
   httparty
   jbuilder
   jsbundling-rails
