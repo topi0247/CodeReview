@@ -30,7 +30,7 @@ class RepositoriesController < ApplicationController
     @content = "```#{@path.split('.').last}
 #{file_content}
 "
-    pre_review_contents = ReviewLog.find_by(repository_name: @repository_name)&.review_contents&.find_by(file_path: @path)
+    pre_review_contents = ReviewLog.find_by(repository_name: @repository_name)&.review_contents&.where(file_path: @path)&.last
     @code_review = nil
     if pre_review_contents.present?
       pre_commit_oid = pre_review_contents.commit_oid
