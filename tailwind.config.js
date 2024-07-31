@@ -48,6 +48,13 @@ module.exports = {
         },
         alert: {
           hooks: {}
+        },
+        modal: {
+          hooks: {},
+          media: true
+        },
+        spinner: {
+          hooks: {}
         }
       },
     }),
