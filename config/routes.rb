@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   post '/try', to: 'static_pages#try', as: :try
 
   resources :repositories, only: %i[index show] do
-    post 'file', on: :member
+    get 'file', on: :member
     post 'code_review', on: :member
     resources :review_logs, only: %i[create destroy]
   end
