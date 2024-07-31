@@ -1,0 +1,19 @@
+<div id="modal-center" class="uk-flex-top" uk-modal bg-close="false">
+  <div class="uk-modal-body uk-margin-auto-vertical uk-modal-dialog flex flex-col justify-center items-center gap-4">
+    <div uk-spinner="ratio: 3"></div>
+    <p>
+      コードレビューを生成中です。今しばらくお待ち下さい。
+    </p>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('turbo:submit-start', function () {
+    UIkit.modal('#modal-center').show();
+  });
+
+  document.addEventListener('turbo:submit-end', function () {
+    UIkit.modal('#modal-center').hide();
+    window.scrollTo(0, 0, { behavior: 'smooth' });
+  });
+</script>
