@@ -8,7 +8,10 @@
 </div>
 
 <script>
-  document.addEventListener('turbo:submit-start', function () {
+  document.addEventListener('turbo:submit-start', function (e) {
+    const form = e.target;
+    const button = form.querySelector('button[type="submit"]');
+    if(!button) return;
     UIkit.modal('#modal-center').show();
   });
 
