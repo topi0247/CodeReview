@@ -121,6 +121,7 @@ GEM
       net-http
     globalid (1.2.1)
       activesupport (>= 6.1)
+    google-analytics-rails (1.1.1)
     graphql (2.3.9)
       base64
     graphql-client (0.23.0)
@@ -355,6 +356,7 @@ DEPENDENCIES
   debug
   dockerfile-rails (>= 1.6)
   dotenv-rails
+  google-analytics-rails
   graphql
   graphql-client
   high_voltage (~> 4.0.0)
