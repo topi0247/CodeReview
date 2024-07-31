@@ -13,6 +13,6 @@
           == markdown(@content)
     - if @code_review.nil?
       .w-full.flex.justify-center.items-center.my-8
-        = button_to 'コードレビューしてもらう', code_review_repository_path(id: @repository_name, path: @path), class: 'border border-white px-2 py-1 hover:bg-white hover:text-slate-800 transition-all'
+        = button_to 'コードレビューしてもらう', code_review_repository_path(id: @repository_name, path: @path), class: 'border border-white px-2 py-1 hover:bg-white hover:text-slate-800 transition-all', id: "code-review-button"
 
-  = render "shared/modal"
+

@@ -4,4 +4,4 @@ li.relative
     span.uk-accordion-icon uk-icon="icon: chevron-down; ratio: 0.8"
   .uk-accordion-content.flex.flex-col.justify-start.items-start
     - files.each do |file|
-      = link_to file.split('/').last, file_repository_path(id: @repository_name, path: file), class: "py-1 pl-2 hover:underline", data: { turbo_method: :post }
+      = link_to file.split('/').last, file_repository_path(id: @repository_name, path: file), class: "py-1 pl-2 hover:underline", data: { turbo_stream: true }
