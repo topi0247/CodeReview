@@ -11,7 +11,12 @@ html.light
     = javascript_include_tag "application", "data-turbo-track" => "reload", "type" => "module"
     script src="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/js/uikit.min.js"
     script src="https://cdn.jsdelivr.net/npm/uikit@3.21.6/dist/js/uikit-icons.min.js"
-    = analytics_init if Rails.env.production?
+    script[async src="https://www.googletagmanager.com/gtag/js?id=G-R9LW0HS4WD"]
+    script
+      | window.dataLayer = window.dataLayer || [];
+      | function gtag(){dataLayer.pugsh(arguments);}
+      | gtag('js', new Date());
+      | gtag('config', 'G-R9LW0HS4WD');
   body
 
     .min-h-screen.w-full.bg-slate-800.text-white.flex.flex-col
