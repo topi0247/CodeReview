@@ -13,4 +13,5 @@ Rails.application.routes.draw do
     post 'code_review', on: :member
     resources :review_logs, only: %i[create destroy]
   end
+  resources :review_logs, only: %i[index]
 end
