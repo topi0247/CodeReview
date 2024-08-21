@@ -1,24 +1,21 @@
-# README
+# 環境構築方法
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+1. `git clone`
+1. `.env`ファイル作成して # env の中身 を記載
+1. `docker compose build`
+1. `docker compose run --rm web /bin/bash -c "bundle config set --local path vendor/bundle && bundle install"`
+1. `docker compose run --rm web yarn install`
+1. `docker compose up`
 
-Things you may want to cover:
+`http://localhost:3000`でアクセス可能
 
-* Ruby version
+# `env`の中身
 
-* System dependencies
+```
+GITHUB_KEY=
+GITHUB_SECRET=
+GITHUB_ACCESS_TOKEN=
+OPENAI_API_KEY=
+```
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+各キーの中身は DM で送ります
